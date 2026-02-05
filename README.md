@@ -29,14 +29,6 @@ Navegue até a pasta da ferramenta desejada para ver as instruções completas.
 - Privilégios de root ou sudo
 - Conexão com a internet
 
-## 🔮 Categorias Futuras
-
-Categorias planejadas:
-- `databases/` - Scripts de instalação de bancos de dados
-- `web-servers/` - Configurações de servidores web
-- `monitoring/` - Ferramentas de monitoramento
-- `tools/` - Scripts utilitários diversos
-
 ## ⚠️ Aviso
 
 Estes scripts são fornecidos como estão. Sempre revise os scripts antes de executá-los no seu sistema. Use por sua conta e risco.
