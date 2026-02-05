@@ -23,6 +23,7 @@ Coleção de scripts auxiliares para administração de sistemas, automação e 
 
 | Ferramenta | Descrição | Documentação |
 |------------|-----------|-------------|
+| **File Browser** | Gerenciador de arquivos web-based | [📖 Ver docs](management/filebrowser/) |
 | **Webmin** | Interface web para administração de sistemas | [📖 Ver docs](management/webmin/) |
 
 ### Tools (Ferramentas)
@@ -54,6 +55,9 @@ curl -fsSL https://raw.githubusercontent.com/gianfratti/Helper-Scripts/main/cont
 
 # Instalar Webmin
 curl -fsSL https://raw.githubusercontent.com/gianfratti/Helper-Scripts/main/management/webmin/install.sh | sudo bash
+
+# Instalar File Browser
+curl -fsSL https://raw.githubusercontent.com/gianfratti/Helper-Scripts/main/management/filebrowser/install.sh | sudo bash
 ```
 
 Cada ferramenta possui sua própria documentação detalhada com exemplos de uso, requisitos e troubleshooting.
