@@ -83,6 +83,7 @@ fi
 print_info "Creating directory structure..."
 mkdir -p /etc/filebrowser
 mkdir -p /var/lib/filebrowser
+mkdir -p /srv
 
 # Create default configuration
 print_info "Creating default configuration..."
@@ -100,11 +101,50 @@ EOF
 # Initialize database
 print_info "Initializing database..."
 filebrowser config init --config /etc/filebrowser/config.json
-filebrowser config set --address 0.0.0.0 --port 8080 --database /var/lib/filebrowser/filebrowser.db --root /srv --config /etc/filebrowser/config.json
 
-# Create admin user
-print_info "Creating default admin user..."
-filebrowser users add admin admin --perm.admin --config /etc/filebrowser/config.json 2>/dev/null || true
+if [ $? -ne 0 ]; then
+    print_error "Failed to initialize File Browser database"
+    exit 1
+fi
+
+print_info "Configuring File Browser settings..."
+filebrowser config set --address 0.0.0.0 --config /etc/filebrowser/config.json
+filebrowser config set --port 8080 --config /etc/filebrowser/config.json
+filebrowser config set --database /var/lib/filebrowser/filebrowser.db --config /etc/filebrowser/config.json
+filebrowser config set --root /srv --config /etc/filebrowser/config.json
+
+# Create admin user - CRITICAL STEP
+print_info "Creating admin user (username: admin, password: admin)..."
+
+# Remove admin user if exists
+filebrowser users rm admin --config /etc/filebrowser/config.json 2>/dev/null || true
+
+# Add admin user
+if filebrowser users add admin admin --perm.admin --config /etc/filebrowser/config.json; then
+    print_success "Admin user created successfully"
+else
+    print_error "Failed to create admin user"
+    print_info "Trying alternative method..."
+    
+    # Alternative: recreate database and add user
+    rm -f /var/lib/filebrowser/filebrowser.db
+    filebrowser config init --config /etc/filebrowser/config.json
+    filebrowser config set --address 0.0.0.0 --port 8080 --database /var/lib/filebrowser/filebrowser.db --root /srv --config /etc/filebrowser/config.json
+    
+    if filebrowser users add admin admin --perm.admin --config /etc/filebrowser/config.json; then
+        print_success "Admin user created successfully (alternative method)"
+    else
+        print_error "Failed to create admin user. Please create manually after installation."
+    fi
+fi
+
+# Verify admin user was created
+print_info "Verifying admin user..."
+if filebrowser users ls --config /etc/filebrowser/config.json | grep -q "admin"; then
+    print_success "Admin user verified"
+else
+    print_warn "Admin user not found in user list. You may need to create it manually."
+fi
 
 # Create systemd service
 print_info "Creating systemd service..."
@@ -143,7 +183,8 @@ if systemctl is-active --quiet filebrowser; then
     print_success "File Browser service is running"
 else
     print_error "File Browser service failed to start"
-    systemctl status filebrowser
+    print_info "Checking service status..."
+    systemctl status filebrowser --no-pager
     exit 1
 fi
 
@@ -153,17 +194,30 @@ SERVER_IP=$(hostname -I | awk '{print $1}')
 echo ""
 print_success "File Browser installation completed successfully!"
 echo ""
-print_info "Access File Browser at: http://${SERVER_IP}:8080"
-print_info "Default credentials:"
-print_info "  Username: admin"
-print_info "  Password: admin"
+print_success "===================================="
+print_success "  ACCESS INFORMATION"
+print_success "===================================="
+print_info "URL: http://${SERVER_IP}:8080"
+print_info "Username: admin"
+print_info "Password: admin"
+print_success "===================================="
 echo ""
-print_warn "IMPORTANT: Change the default password after first login!"
-print_warn "Go to Settings > User Management to change your password"
+print_warn "IMPORTANT SECURITY STEPS:"
+print_warn "1. Change the default password after first login!"
+print_warn "2. Go to Settings > User Management to change your password"
+print_warn "3. Consider using a reverse proxy with HTTPS for production"
 echo ""
-print_info "File root directory: /srv"
-print_info "Configuration file: /etc/filebrowser/config.json"
-print_info "Database file: /var/lib/filebrowser/filebrowser.db"
+print_info "Additional Information:"
+print_info "  File root directory: /srv"
+print_info "  Configuration file: /etc/filebrowser/config.json"
+print_info "  Database file: /var/lib/filebrowser/filebrowser.db"
+print_info "  Service: systemctl status filebrowser"
+echo ""
+print_info "If login fails, try resetting the admin user:"
+print_info "  sudo systemctl stop filebrowser"
+print_info "  sudo filebrowser users rm admin --config /etc/filebrowser/config.json"
+print_info "  sudo filebrowser users add admin newpassword --perm.admin --config /etc/filebrowser/config.json"
+print_info "  sudo systemctl start filebrowser"
 echo ""
 
 exit 0
