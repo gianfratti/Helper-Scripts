@@ -5,18 +5,17 @@ A collection of helper scripts for system administration, automation, and DevOps
 ## 📁 Repository Structure
 
 ```
-├── install/
-│   └── containers/      # Container platform installation scripts
+├── containers/       # Container platform scripts
 └── README.md
 ```
 
 ## 🚀 Available Scripts
 
-### Installation Scripts - Containers
+### Containers
 
 | Script | Description | Usage |
 |--------|-------------|-------|
-| `install/containers/docker.sh` | Installs Docker Engine and Docker Compose | `sudo bash install/containers/docker.sh` |
+| `containers/docker.sh` | Installs Docker Engine and Docker Compose | `sudo bash containers/docker.sh` |
 
 ## 🛠️ How to Use
 
@@ -28,7 +27,7 @@ A collection of helper scripts for system administration, automation, and DevOps
 
 2. Run the desired script:
    ```bash
-   sudo bash install/containers/docker.sh
+   sudo bash containers/docker.sh
    ```
 
 ## 📝 Requirements
