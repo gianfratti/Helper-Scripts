@@ -29,19 +29,41 @@ Coleção de scripts auxiliares para administração de sistemas, automação e 
 
 | Ferramenta | Descrição | Documentação |
 |------------|-----------|-------------|
+| **cURL** | Ferramenta de linha de comando para transferência de dados | [📖 Ver docs](tools/curl/) |
 | **Git** | Sistema de controle de versão distribuído | [📖 Ver docs](tools/git/) |
 
 ## 🎯 Como Usar
 
-Cada ferramenta possui sua própria documentação detalhada com exemplos de uso, requisitos e troubleshooting.
+### 🔴 Primeiro Passo: Instalar cURL
 
-Navegue até a pasta da ferramenta desejada para ver as instruções completas.
+Antes de usar os outros scripts, você precisa ter o **cURL** instalado:
+
+```bash
+sudo apt update
+sudo apt install curl -y
+```
+
+### 🟢 Depois, use o cURL para instalar outros scripts:
+
+```bash
+# Instalar Git
+curl -fsSL https://raw.githubusercontent.com/gianfratti/Helper-Scripts/main/tools/git/install.sh | sudo bash
+
+# Instalar Docker
+curl -fsSL https://raw.githubusercontent.com/gianfratti/Helper-Scripts/main/containers/docker/install.sh | sudo bash
+
+# Instalar Webmin
+curl -fsSL https://raw.githubusercontent.com/gianfratti/Helper-Scripts/main/management/webmin/install.sh | sudo bash
+```
+
+Cada ferramenta possui sua própria documentação detalhada com exemplos de uso, requisitos e troubleshooting.
 
 ## 📋 Requisitos Gerais
 
 - Sistemas baseados em Ubuntu/Debian
 - Privilégios de root ou sudo
 - Conexão com a internet
+- **cURL** instalado (primeiro requisito)
 
 ## 🔮 Categorias Futuras
 
