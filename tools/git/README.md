@@ -23,28 +23,32 @@ Usado por milhões de desenvolvedores e empresas ao redor do mundo para:
 
 ## 🚀 Como usar
 
-### Instalação básica
+> ⚠️ **IMPORTANTE**: Como você ainda não tem o Git instalado, não é possível usar `git clone` para baixar este script. Use o método de instalação direta abaixo.
+
+### Instalação direta (recomendado)
 
 ```bash
-# Clone o repositório
-git clone https://github.com/gianfratti/Helper-Scripts.git
-cd Helper-Scripts/tools/git
-
-# Execute o script
-sudo bash install.sh
-```
-
-### Instalação direta (sem clone)
-
-```bash
+# Baixar e executar o script diretamente
 curl -fsSL https://raw.githubusercontent.com/gianfratti/Helper-Scripts/main/tools/git/install.sh | sudo bash
 ```
 
 ### Instalação manual (alternativa)
 
+Se preferir instalar manualmente:
+
 ```bash
 sudo apt update
 sudo apt install git -y
+git --version
+```
+
+### Após instalar o Git
+
+Depois que o Git estiver instalado, você poderá clonar este repositório:
+
+```bash
+git clone https://github.com/gianfratti/Helper-Scripts.git
+cd Helper-Scripts
 ```
 
 ## ✅ Requisitos
@@ -52,6 +56,7 @@ sudo apt install git -y
 - Ubuntu 20.04+ ou Debian 10+
 - Privilégios de root/sudo
 - Conexão com a internet
+- `curl` instalado (geralmente já vem por padrão)
 
 ## 📊 Sistemas testados
 
@@ -291,6 +296,14 @@ __pycache__/
 ```
 
 ## ⚠️ Troubleshooting
+
+### Erro: "git: command not found"
+
+O Git não está instalado. Execute o script de instalação:
+
+```bash
+curl -fsSL https://raw.githubusercontent.com/gianfratti/Helper-Scripts/main/tools/git/install.sh | sudo bash
+```
 
 ### Erro: "Permission denied (publickey)"
 
