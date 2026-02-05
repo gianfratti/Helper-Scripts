@@ -5,7 +5,10 @@ A collection of helper scripts for system administration, automation, and DevOps
 ## 📁 Repository Structure
 
 ```
-├── containers/       # Container platform scripts
+├── containers/
+│   └── docker/
+│       ├── README.md      # Docker documentation
+│       └── install.sh     # Docker installation script
 └── README.md
 ```
 
@@ -13,28 +16,40 @@ A collection of helper scripts for system administration, automation, and DevOps
 
 ### Containers
 
-| Script | Description | Usage |
-|--------|-------------|-------|
-| `containers/docker.sh` | Installs Docker Engine and Docker Compose | `sudo bash containers/docker.sh` |
+| Tool | Description | Documentation |
+|------|-------------|---------------|
+| **Docker** | Docker Engine + Docker Compose installation | [View docs](containers/docker/README.md) |
 
-## 🛠️ How to Use
+## 🛠️ Quick Start
 
-1. Clone this repository:
-   ```bash
-   git clone https://github.com/gianfratti/Helper-Scripts.git
-   cd Helper-Scripts
-   ```
+### Docker Installation
 
-2. Run the desired script:
-   ```bash
-   sudo bash containers/docker.sh
-   ```
+```bash
+# Clone and install
+git clone https://github.com/gianfratti/Helper-Scripts.git
+cd Helper-Scripts/containers/docker
+sudo bash install.sh
+```
+
+Or direct installation:
+
+```bash
+curl -fsSL https://raw.githubusercontent.com/gianfratti/Helper-Scripts/main/containers/docker/install.sh | sudo bash
+```
 
 ## 📝 Requirements
 
-- Ubuntu/Debian-based systems (for most scripts)
+- Ubuntu/Debian-based systems
 - Root or sudo privileges
 - Internet connection
+
+## 📂 Future Categories
+
+Planned script categories:
+- `databases/` - Database installation scripts
+- `web-servers/` - Web server configurations
+- `monitoring/` - Monitoring tools setup
+- `tools/` - Utility scripts
 
 ## ⚠️ Disclaimer
 
