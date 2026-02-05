@@ -1,11 +1,12 @@
 # Helper-Scripts
 
-Coleção de scripts auxiliares para administração de sistemas, automação e tarefas DevOps.
+Coleção de scripts auxiliares para administração de sistemas, automação e tarefas DevOps. Inspirado em [ProxmoxVE Helper-Scripts](https://github.com/community-scripts/ProxmoxVE).
 
 ## 📁 Estrutura do Repositório
 
 ```
 ├── containers/       # Scripts para plataformas de containers
+├── management/       # Ferramentas de gerenciamento de sistemas
 └── README.md
 ```
 
@@ -16,6 +17,12 @@ Coleção de scripts auxiliares para administração de sistemas, automação e 
 | Ferramenta | Descrição | Documentação |
 |------------|-----------|-------------|
 | **Docker** | Instalação do Docker Engine e Docker Compose | [📖 Ver docs](containers/docker/) |
+
+### Management (Gerenciamento)
+
+| Ferramenta | Descrição | Documentação |
+|------------|-----------|-------------|
+| **Webmin** | Interface web para administração de sistemas | [📖 Ver docs](management/webmin/) |
 
 ## 🎯 Como Usar
 
@@ -28,6 +35,14 @@ Navegue até a pasta da ferramenta desejada para ver as instruções completas.
 - Sistemas baseados em Ubuntu/Debian
 - Privilégios de root ou sudo
 - Conexão com a internet
+
+## 🔮 Categorias Futuras
+
+Categorias planejadas:
+- `databases/` - Scripts de instalação de bancos de dados
+- `web-servers/` - Configurações de servidores web
+- `monitoring/` - Ferramentas de monitoramento
+- `tools/` - Scripts utilitários diversos
 
 ## ⚠️ Aviso
 
