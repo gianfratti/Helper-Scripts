@@ -1,6 +1,6 @@
 # Helper-Scripts
 
-Coleção de scripts auxiliares para administração de sistemas, automação e tarefas DevOps. Inspirado em [ProxmoxVE Helper-Scripts](https://github.com/community-scripts/ProxmoxVE).
+Coleção de scripts auxiliares para administração de sistemas, automação e tarefas DevOps.
 
 ## 📁 Estrutura do Repositório
 
