@@ -250,9 +250,28 @@ sudo ufw allow from 192.168.1.0/24 to any port 10000
 - [Fórum oficial](https://forum.virtualmin.com/)
 - [GitHub do Webmin](https://github.com/webmin/webmin)
 
-## 🛠️ Desinstalação
+## 🗑️ Desinstalação
 
-Se precisar remover o Webmin:
+### Usando o script de desinstalação (recomendado)
+
+```bash
+# Clone o repositório
+git clone https://github.com/gianfratti/Helper-Scripts.git
+cd Helper-Scripts/management/webmin
+
+# Execute o script de desinstalação
+sudo bash uninstall.sh
+```
+
+### Desinstalação direta (sem clone)
+
+```bash
+curl -fsSL https://raw.githubusercontent.com/gianfratti/Helper-Scripts/main/management/webmin/uninstall.sh | sudo bash
+```
+
+### Desinstalação manual
+
+Se preferir desinstalar manualmente:
 
 ```bash
 # Parar o serviço
