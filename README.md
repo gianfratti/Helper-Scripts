@@ -7,6 +7,7 @@ Coleção de scripts auxiliares para administração de sistemas, automação e 
 ```
 ├── containers/       # Scripts para plataformas de containers
 ├── management/       # Ferramentas de gerenciamento de sistemas
+├── tools/            # Ferramentas de desenvolvimento
 └── README.md
 ```
 
@@ -23,6 +24,12 @@ Coleção de scripts auxiliares para administração de sistemas, automação e 
 | Ferramenta | Descrição | Documentação |
 |------------|-----------|-------------|
 | **Webmin** | Interface web para administração de sistemas | [📖 Ver docs](management/webmin/) |
+
+### Tools (Ferramentas)
+
+| Ferramenta | Descrição | Documentação |
+|------------|-----------|-------------|
+| **Git** | Sistema de controle de versão distribuído | [📖 Ver docs](tools/git/) |
 
 ## 🎯 Como Usar
 
@@ -42,7 +49,6 @@ Categorias planejadas:
 - `databases/` - Scripts de instalação de bancos de dados
 - `web-servers/` - Configurações de servidores web
 - `monitoring/` - Ferramentas de monitoramento
-- `tools/` - Scripts utilitários diversos
 
 ## ⚠️ Aviso
 
