@@ -113,14 +113,14 @@ filebrowser config set --port 8080 --config /etc/filebrowser/config.json
 filebrowser config set --database /var/lib/filebrowser/filebrowser.db --config /etc/filebrowser/config.json
 filebrowser config set --root /srv --config /etc/filebrowser/config.json
 
-# Create admin user with specific credentials
+# Create admin user with password: admin
 print_info "Creating admin user..."
 
 # Remove admin user if exists
 filebrowser users rm admin --config /etc/filebrowser/config.json 2>/dev/null || true
 
-# Add admin user with password: helper-scripts.com
-if filebrowser users add admin helper-scripts.com --perm.admin --config /etc/filebrowser/config.json; then
+# Add admin user with password: admin
+if filebrowser users add admin admin --perm.admin --config /etc/filebrowser/config.json; then
     print_success "Admin user created successfully"
 else
     print_error "Failed to create admin user"
@@ -189,7 +189,7 @@ echo ""
 print_success "Access Information:"
 print_info "  URL: http://${SERVER_IP}:8080"
 print_info "  Username: admin"
-print_info "  Password: helper-scripts.com"
+print_info "  Password: admin"
 echo ""
 print_warn "⚠️  IMPORTANT: Change the default password after first login!"
 print_warn "   Go to Settings > User Management to change your password"
