@@ -98,6 +98,44 @@ cat > /etc/filebrowser/config.json <<EOF
 }
 EOF
 
+# Initialize database
+print_info "Initializing database..."
+filebrowser config init --config /etc/filebrowser/config.json
+
+if [ $? -ne 0 ]; then
+    print_error "Failed to initialize File Browser database"
+    exit 1
+fi
+
+print_info "Configuring File Browser settings..."
+filebrowser config set --address 0.0.0.0 --config /etc/filebrowser/config.json
+filebrowser config set --port 8080 --config /etc/filebrowser/config.json
+filebrowser config set --database /var/lib/filebrowser/filebrowser.db --config /etc/filebrowser/config.json
+filebrowser config set --root /srv --config /etc/filebrowser/config.json
+
+# Create admin user with specific credentials
+print_info "Creating admin user..."
+
+# Remove admin user if exists
+filebrowser users rm admin --config /etc/filebrowser/config.json 2>/dev/null || true
+
+# Add admin user with password: helper-scripts.com
+if filebrowser users add admin helper-scripts.com --perm.admin --config /etc/filebrowser/config.json; then
+    print_success "Admin user created successfully"
+else
+    print_error "Failed to create admin user"
+    exit 1
+fi
+
+# Verify admin user was created
+print_info "Verifying admin user..."
+if filebrowser users ls --config /etc/filebrowser/config.json | grep -q "admin"; then
+    print_success "Admin user verified"
+else
+    print_error "Admin user not found in user list"
+    exit 1
+fi
+
 # Create systemd service
 print_info "Creating systemd service..."
 cat > /etc/systemd/system/filebrowser.service <<EOF
@@ -111,8 +149,6 @@ User=root
 ExecStart=/usr/local/bin/filebrowser -c /etc/filebrowser/config.json
 Restart=on-failure
 RestartSec=5s
-StandardOutput=journal
-StandardError=journal
 
 [Install]
 WantedBy=multi-user.target
@@ -122,16 +158,15 @@ EOF
 print_info "Reloading systemd..."
 systemctl daemon-reload
 
-# Enable service
+# Enable and start service
 print_info "Enabling File Browser service..."
 systemctl enable filebrowser
 
-# Start service and capture initial logs
 print_info "Starting File Browser service..."
 systemctl start filebrowser
 
-# Wait for service to initialize
-sleep 5
+# Wait for service to start
+sleep 3
 
 # Check if service is running
 if systemctl is-active --quiet filebrowser; then
@@ -146,35 +181,18 @@ fi
 # Get server IP
 SERVER_IP=$(hostname -I | awk '{print $1}')
 
-# Extract auto-generated password from logs
-print_info "Extracting admin password from logs..."
-AUTO_PASSWORD=$(journalctl -u filebrowser --no-pager -n 100 | grep -oP "password for user 'admin': \K.*" | head -n 1)
-
 echo ""
 print_success "====================================================="
 print_success "  FILE BROWSER INSTALLATION COMPLETED!"
 print_success "====================================================="
 echo ""
-print_info "Access URL: http://${SERVER_IP}:8080"
+print_success "Access Information:"
+print_info "  URL: http://${SERVER_IP}:8080"
+print_info "  Username: admin"
+print_info "  Password: helper-scripts.com"
 echo ""
-
-if [ -n "$AUTO_PASSWORD" ]; then
-    print_success "AUTO-GENERATED CREDENTIALS:"
-    print_info "  Username: admin"
-    print_info "  Password: $AUTO_PASSWORD"
-    echo ""
-    print_warn "⚠️  SAVE THIS PASSWORD NOW!"
-    print_warn "⚠️  This password is only shown once!"
-    print_warn "⚠️  Change it after first login in Settings > User Management"
-else
-    print_warn "Could not extract auto-generated password from logs."
-    print_info "To find the password, run:"
-    print_info "  sudo journalctl -u filebrowser -n 100 | grep 'password'"
-    echo ""
-    print_info "Look for a line like:"
-    print_info "  'Randomly generated password for user admin: XXXXXXXXXX'"
-fi
-
+print_warn "⚠️  IMPORTANT: Change the default password after first login!"
+print_warn "   Go to Settings > User Management to change your password"
 echo ""
 print_info "Additional Information:"
 print_info "  File root directory: /srv"
@@ -183,11 +201,8 @@ print_info "  Database: /var/lib/filebrowser/filebrowser.db"
 print_info "  Service status: systemctl status filebrowser"
 print_info "  View logs: journalctl -u filebrowser -f"
 echo ""
-print_info "If you need to reset the password:"
-print_info "  1. sudo systemctl stop filebrowser"
-print_info "  2. sudo rm /var/lib/filebrowser/filebrowser.db"
-print_info "  3. sudo systemctl start filebrowser"
-print_info "  4. sudo journalctl -u filebrowser -n 50 | grep password"
+print_info "To change password via command line:"
+print_info "  sudo filebrowser users update admin --password newpassword --config /etc/filebrowser/config.json"
 echo ""
 
 exit 0
