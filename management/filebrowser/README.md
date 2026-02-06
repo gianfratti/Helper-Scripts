@@ -83,7 +83,7 @@ http://localhost:8080
 ### Credenciais padrão
 
 - **Usuário:** admin
-- **Senha:** helper-scripts.com
+- **Senha:** admin
 
 > ⚠️ **IMPORTANTE**: Altere a senha padrão imediatamente após o primeiro login!
 
@@ -269,7 +269,7 @@ sudo systemctl start filebrowser
 sudo systemctl stop filebrowser
 sudo rm /var/lib/filebrowser/filebrowser.db
 sudo filebrowser config init --config /etc/filebrowser/config.json
-sudo filebrowser users add admin helper-scripts.com --perm.admin --config /etc/filebrowser/config.json
+sudo filebrowser users add admin admin --perm.admin --config /etc/filebrowser/config.json
 sudo systemctl start filebrowser
 ```
 
@@ -286,7 +286,7 @@ Recriar usuário:
 ```bash
 sudo systemctl stop filebrowser
 sudo filebrowser users rm admin --config /etc/filebrowser/config.json
-sudo filebrowser users add admin helper-scripts.com --perm.admin --config /etc/filebrowser/config.json
+sudo filebrowser users add admin admin --perm.admin --config /etc/filebrowser/config.json
 sudo systemctl start filebrowser
 ```
 
