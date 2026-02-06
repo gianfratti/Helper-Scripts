@@ -11,9 +11,7 @@ Recursos principais:
 - ⬆️ Upload e download de arquivos
 - ✏️ Editor de texto integrado
 - 🔍 Busca de arquivos
-- 🗄️ Pré-visualização de imagens e víde
-
-os
+- 🗄️ Pré-visualização de imagens e vídeos
 - 🗑️ Operações de arquivo (copiar, mover, deletar)
 - 🔐 Gerenciamento de usuários e permissões
 - 🎨 Interface moderna e responsiva
@@ -27,7 +25,7 @@ os
 4. Cria estrutura de diretórios
 5. Configura o File Browser (porta 8080, root /srv)
 6. Inicializa banco de dados
-7. Cria usuário admin padrão
+7. Cria usuário admin com senha padrão
 8. Cria serviço systemd
 9. Inicia e habilita o serviço
 10. Exibe informações de acesso
@@ -85,17 +83,25 @@ http://localhost:8080
 ### Credenciais padrão
 
 - **Usuário:** admin
-- **Senha:** admin
+- **Senha:** helper-scripts.com
 
 > ⚠️ **IMPORTANTE**: Altere a senha padrão imediatamente após o primeiro login!
 
 ### Alterar senha
+
+#### Via interface web:
 
 1. Faça login com as credenciais padrão
 2. Clique no ícone do usuário (canto superior direito)
 3. Vá em **Settings** → **User Management**
 4. Clique em **Edit** no usuário admin
 5. Altere a senha e salve
+
+#### Via linha de comando:
+
+```bash
+sudo filebrowser users update admin --password sua_nova_senha --config /etc/filebrowser/config.json
+```
 
 ## 🔧 Configuração
 
@@ -119,6 +125,9 @@ sudo systemctl start filebrowser
 
 # Reiniciar serviço
 sudo systemctl restart filebrowser
+
+# Ver logs
+sudo journalctl -u filebrowser -f
 ```
 
 ### Mudar porta
@@ -183,6 +192,9 @@ sudo filebrowser users rm nome --config /etc/filebrowser/config.json
 
 # Tornar usuário admin
 sudo filebrowser users update nome --perm.admin --config /etc/filebrowser/config.json
+
+# Alterar senha
+sudo filebrowser users update nome --password novasenha --config /etc/filebrowser/config.json
 ```
 
 ## 📖 Funcionalidades
@@ -245,16 +257,36 @@ Verifique permissões do diretório raiz:
 sudo chmod -R 755 /srv
 ```
 
-### Resetar senha do admin
+### Esqueci a senha do admin
 
 ```bash
-# Parar serviço
+# Método 1: Resetar senha
 sudo systemctl stop filebrowser
-
-# Resetar senha
 sudo filebrowser users update admin --password novasenha --config /etc/filebrowser/config.json
+sudo systemctl start filebrowser
 
-# Iniciar serviço
+# Método 2: Recriar banco de dados (perde todas configurações)
+sudo systemctl stop filebrowser
+sudo rm /var/lib/filebrowser/filebrowser.db
+sudo filebrowser config init --config /etc/filebrowser/config.json
+sudo filebrowser users add admin helper-scripts.com --perm.admin --config /etc/filebrowser/config.json
+sudo systemctl start filebrowser
+```
+
+### Erro de login com credenciais corretas
+
+Verifique os logs:
+
+```bash
+sudo journalctl -u filebrowser -n 50
+```
+
+Recriar usuário:
+
+```bash
+sudo systemctl stop filebrowser
+sudo filebrowser users rm admin --config /etc/filebrowser/config.json
+sudo filebrowser users add admin helper-scripts.com --perm.admin --config /etc/filebrowser/config.json
 sudo systemctl start filebrowser
 ```
 
@@ -269,6 +301,9 @@ curl -fsSL https://raw.githubusercontent.com/filebrowser/get/master/get.sh | bas
 
 # Iniciar serviço
 sudo systemctl start filebrowser
+
+# Verificar versão
+filebrowser version
 ```
 
 ## 🔗 Recursos adicionais
